@@ -3,24 +3,24 @@ CREATE DATABASE tracker_db;
 
 USE tracker_db;
 
-CREATE TABLE department (
+CREATE TABLE departments (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  first_name VARCHAR(30) NOT NULL,
+  department_name VARCHAR(30) NOT NULL
 );
 
 
-CREATE TABLE role (
+CREATE TABLE roles (
   id INT PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(30) NOT NULL,
   salary DECIMAL,
   department_id INT
 );
 
-CREATE TABLE employee (
+CREATE TABLE employees (
   id INT PRIMARY KEY AUTO_INCREMENT,
   first_name VARCHAR(30) NOT NULL,
-  last_name VARCHAR(30)
-  role_id INT
+  last_name VARCHAR(30),
+  role_id INT,
   manager_id INT
   -- /  FOREIGN KEY (instructor_id) REFERENCES instructors(id) ON DELETE CASCADE
 );
