@@ -15,7 +15,7 @@ const db = mysql.createConnection(
   // console.log(`Connected to the tracker_db database.`)
 );
 
-db.connect(function(err) {
+db.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
 });
@@ -36,8 +36,8 @@ function selectTest() {
 }
 
 // Create a function to prompt for the main menu options
-async function mainMenu() {
-  const choice = await inquirer.prompt([
+const promptUser = () => {
+  inquirer.prompt([
     {
       type: 'list',
       name: 'action',
@@ -53,35 +53,40 @@ async function mainMenu() {
         'Exit',
       ],
     },
-  ]);
+  ])
 
-  switch (choice.action) {
-    case 'View all departments':
-      // Implement code to view departments
-      break;
-    case 'View all roles':
-      // Implement code to view roles
-      break;
-    case 'View all employees':
-      // Implement code to view employees
-      break;
-    case 'Add a department':
-      // Implement code to add a department
-      break;
-    case 'Add a role':
-      // Implement code to add a role
-      break;
-    case 'Add an employee':
-      // Implement code to add an employee
-      break;
-    case 'Update an employee role':
-      // Implement code to update an employee's role
-      break;
-    case 'Exit':
-      console.log('Goodbye!');
-      process.exit(0);
-  }
-}
+  .then((answers) => {
+    const { choices } = answers;
+
+    if (choices === 'View all departments') {
+      viewAllDepartments();
+    }
+    if (choices === 'View all roles') {
+      viewAllRoles();
+    }
+
+    if (choices === 'View all employees') {
+      viewAllEmployees();
+    }
+
+    if (choices === 'Add a department') {
+      viewAllDepartments();
+    }
+    if (choices === 'Add a role') {
+      viewAllRoles();
+    }
+
+    if (choices === 'Add an employee') {
+      viewAllEmployees();
+    }
+    if (choices === 'Update an employee role') {
+      updateAnEmployeeRole();
+    }
+    if (choices === 'Exit') {
+      Connection.end();
+    }
+  });
+};
 
 // Call the main menu function to start the application
 // mainMenu();
