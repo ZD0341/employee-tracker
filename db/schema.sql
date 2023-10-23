@@ -1,11 +1,25 @@
-DROP DATABASE IF EXISTS classlist_db;
-CREATE DATABASE classlist_db;
+DROP DATABASE IF EXISTS emp_tracker;
+CREATE DATABASE emp_tracker;
 
-USE classlist_db;
+USE emp_tracker;
+SELECT DATABASE();
 
-CREATE TABLE students (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE department (
+  id INT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
-  last_name VARCHAR(30) NOT NULL,
-  enrolled BOOLEAN NOT NULL
 );
+
+
+CREATE TABLE role (
+  id INT PRIMARY KEY,
+  title VARCHAR(30) NOT NULL,
+  salary DECIMAL
+  department_id INT
+);
+
+CREATE TABLE employee (
+  id INT PRIMARY KEY,
+  first_name VARCHAR(30) NOT NULL,
+  -- /  FOREIGN KEY (instructor_id) REFERENCES instructors(id) ON DELETE SET NULL
+);
+
