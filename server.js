@@ -60,34 +60,108 @@ const promptUser = () => {
 
     if (choices === 'View all departments') {
       viewAllDepartments();
-    }
+    } else
+
     if (choices === 'View all roles') {
       viewAllRoles();
-    }
+    } else
 
     if (choices === 'View all employees') {
       viewAllEmployees();
-    }
+    } else
 
     if (choices === 'Add a department') {
-      viewAllDepartments();
-    }
+      addDepartment();
+    } else
+
     if (choices === 'Add a role') {
-      viewAllRoles();
-    }
+      addRole();
+    } else
 
     if (choices === 'Add an employee') {
-      viewAllEmployees();
-    }
+      addEmployee();
+    } else
+
     if (choices === 'Update an employee role') {
-      updateAnEmployeeRole();
-    }
+      updateEmployeeRole();
+    } else
+
     if (choices === 'Exit') {
       Connection.end();
     }
   });
 };
 
+function viewAllDepartments() {
+  // Implement database query to retrieve departments
+  db.query('SELECT id, name FROM departments', (err, results) => {
+    if (err) {
+      console.error('Error fetching departments:', err);
+    } else {
+      console.table(results);
+  }
+  )
+}
+function viewAllRoles() {
+  db.query('SELECT id, title, salary, department_id FROM roles', (err, results) => {
+    if (err) {
+      console.error('Error fetching roles:', err);
+    } else {
+      console.table(results);
+    }
+    mainMenu();
+  });
+}
+function viewAllEmployees() {
+  // Implement database query to retrieve departments
+  db.query('SELECT id, name FROM departments', (err, results) => {
+    if (err) {
+      console.error('Error fetching departments:', err);
+    } else {
+      console.table(results);
+  }
+  )
+}
+function addDepartment() {
+  // Implement database query to retrieve departments
+  db.query('SELECT id, name FROM departments', (err, results) => {
+    if (err) {
+      console.error('Error fetching departments:', err);
+    } else {
+      console.table(results);
+  }
+  )
+}
+function addRole() {
+  // Implement database query to retrieve departments
+  db.query('SELECT id, name FROM departments', (err, results) => {
+    if (err) {
+      console.error('Error fetching departments:', err);
+    } else {
+      console.table(results);
+  }
+  )
+}
+function addEmployee() {
+  // Implement database query to retrieve departments
+  db.query('SELECT id, name FROM departments', (err, results) => {
+    if (err) {
+      console.error('Error fetching departments:', err);
+    } else {
+      console.table(results);
+  }
+  )
+}
+function updateEmployeeRole() {
+  // Implement database query to retrieve departments
+  db.query('SELECT id, name FROM departments', (err, results) => {
+    if (err) {
+      console.error('Error fetching departments:', err);
+    } else {
+      console.table(results);
+  }
+  )
+}
 // Call the main menu function to start the application
 // mainMenu();
 selectTest();
