@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
+const Connection = require('mysql2/typings/mysql/lib/Connection');
 
 // Connect to database
 const db = mysql.createConnection(
@@ -177,8 +178,28 @@ async function deleteDepartment() {
 
 async function addRole() {
   try {
-    const results = await queryDatabase('');
-    console.table(results);
+    const newRole = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'title',
+        message: 'Enter the title of the new role:',
+      },
+      {
+        type: 'input',
+        name: 'salary',
+        message: 'Enter the salary for the new role:',
+      },
+      {
+        type: 'input',
+        name: 'department_id',
+        message: 'Enter the department ID for the new role:',
+      },
+    ]);
+
+    const query = `INSERT INTO roles (title, salary, department_id) VALUES ('${newRole.title}', '${newRole.salary}', '${newRole.department_id}')`;
+    await queryDatabase(query);
+
+    console.log(`New role '${newRole.title}' added.`);
   } catch (err) {
     console.error('Error adding role:', err);
   }
@@ -187,83 +208,136 @@ async function addRole() {
 
 async function addEmployee() {
   try {
-    const results = await queryDatabase('');
-    console.table(results);
+    const employeeData = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'first_name',
+        message: 'Enter the first name of the new employee:',
+      },
+      {
+        type: 'input',
+        name: 'last_name',
+        message: 'Enter the last name of the new employee:',
+      },
+      {
+        type: 'input',
+        name: 'role_id',
+        message: 'Enter the role ID of the new employee:',
+      },
+      {
+        type: 'input',
+        name: 'manager_id',
+        message: 'Enter the manager ID of the new employee (if applicable):',
+      },
+    ]);
+
+    const query = `
+      INSERT INTO employees (first_name, last_name, role_id, manager_id)
+      VALUES ('${employeeData.first_name}', '${employeeData.last_name}', ${parseInt(employeeData.role_id)}, ${
+      parseInt(employeeData.manager_id) || null
+    })
+    `;
+
+    await queryDatabase(query);
+
+    console.log(`New employee '${employeeData.first_name} ${employeeData.last_name}' added.`);
   } catch (err) {
     console.error('Error adding employee:', err);
   }
   promptUser();
 }
 
-async function updateEmployeeRole() {
+const updateEmployeeRole = async () => {
   try {
-    const results = await queryDatabase('');
-    console.table(results);
+    const employeeChoices = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'employee',
+        message: 'Whose role are we updating?',
+        choices: employees.map(employee => ({ name: employee.name, value: employee.id })),
+      },
+      {
+        type: 'list',
+        name: 'role',
+        message: 'What is their new role?',
+        choices: roles.map(role => ({ name: role.title, value: role.id })),
+      },
+    ]);
+
+    const query = `
+      UPDATE employees
+      SET role_id = ${employeeChoices.role}
+      WHERE id = ${employeeChoices.employee}
+    `;
+
+    await queryDatabase(query);
+
+    console.log('Employee role updated successfully.');
   } catch (err) {
     console.error('Error updating employee role:', err);
   }
-  promptUser();
-}
 
-async function updateEmployeeManager() {
-  try {
-    const results = await queryDatabase('');
-    console.table(results);
-  } catch (err) {
-    console.error('Error updating employee manager:', err);
-  }
   promptUser();
-}
+};
+// async function updateEmployeeManager() {
+//   try {
+//     const results = await queryDatabase('');
+//     console.table(results);
+//   } catch (err) {
+//     console.error('Error updating employee manager:', err);
+//   }
+//   promptUser();
+// }
 
-async function viewEmployeesByManager() {
-  try {
-    const results = await queryDatabase('');
-    console.table(results);
-  } catch (err) {
-    console.error('Error fetching employees by manager:', err);
-  }
-  promptUser();
-}
+// async function viewEmployeesByManager() {
+//   try {
+//     const results = await queryDatabase('');
+//     console.table(results);
+//   } catch (err) {
+//     console.error('Error fetching employees by manager:', err);
+//   }
+//   promptUser();
+// }
 
-async function viewEmployeesByDepartment() {
-  try {
-    const results = await queryDatabase('');
-    console.table(results);
-  } catch (err) {
-    console.error('Error fetching employees by department:', err);
-  }
-  promptUser();
-}
+// async function viewEmployeesByDepartment() {
+//   try {
+//     const results = await queryDatabase('');
+//     console.table(results);
+//   } catch (err) {
+//     console.error('Error fetching employees by department:', err);
+//   }
+//   promptUser();
+// }
 
-async function deleteRole() {
-  try {
-    const results = await queryDatabase('');
-    console.table(results);
-  } catch (err) {
-    console.error('Error deleting role:', err);
-  }
-  promptUser();
-}
+// async function deleteRole() {
+//   try {
+//     const results = await queryDatabase('');
+//     console.table(results);
+//   } catch (err) {
+//     console.error('Error deleting role:', err);
+//   }
+//   promptUser();
+// }
 
-async function deleteEmployee() {
-  try {
-    const results = await queryDatabase('');
-    console.table(results);
-  } catch (err) {
-    console.error('Error deleting employee:', err);
-  }
-  promptUser();
-}
+// async function deleteEmployee() {
+//   try {
+//     const results = await queryDatabase('');
+//     console.table(results);
+//   } catch (err) {
+//     console.error('Error deleting employee:', err);
+//   }
+//   promptUser();
+// }
 
-async function viewDepartmentBudget() {
-  try {
-    const results = await queryDatabase('');
-    console.table(results);
-  } catch (err) {
-    console.error('Error fetching department budget:', err);
-  }
-  promptUser();
-}
+// async function viewDepartmentBudget() {
+//   try {
+//     const results = await queryDatabase('');
+//     console.table(results);
+//   } catch (err) {
+//     console.error('Error fetching department budget:', err);
+//   }
+//   promptUser();
+// }
 
 function init() {
 
