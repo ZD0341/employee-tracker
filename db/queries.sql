@@ -1,3 +1,6 @@
+-- This file is just a scratchpad for SQL queries
+
+
 -- source ./db/schema.sql;
 -- source ./db/seeds.sql;
 
